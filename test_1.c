@@ -1,16 +1,19 @@
+#include <stdio.h>
 #include <stdlib.h>
 
-/**
- * Note: The returned array must be malloced, assume caller calls free().
- */
-int* stableMountains(int* height, int heightSize, int threshold, int* returnSize) {
-    int *answer = (int *)malloc(sizeof(int) * (heightSize - 1));
-    int i = 0, j = 0;
-    for(i = 1; i <= heightSize - 1; i++){
-        if(height[i-1] > threshold){
-            answer[j++] = i;
-        }
+int tailRecur(int n, int res) 
+// "尾递归求n个数的和"
+{
+    if(n == 0){
+        return res;
     }
-    *returnSize = j;
-    return answer;
+    return tailRecur(n-1,res+n);
+}
+
+int main() 
+{
+    int n = 10;
+    int res = tailRecur(n,0);
+    printf("The sum of first %d numbers is %d\n",n,res);
+    return 0;
 }
