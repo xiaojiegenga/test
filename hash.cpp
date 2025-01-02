@@ -21,6 +21,7 @@ int main(void){
     for(auto kv: map){
         cout << kv.first << "->" << kv.second << endl;
     }
+    
 
     return 0;
 }
