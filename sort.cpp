@@ -74,9 +74,44 @@ void quick_sort(vector<int> &nums, int left, int right){
     quick_sort(nums, privot+1, right);
 }
 
+void merge(vector<int> &nums, int left, int mid, int right){
+    //左子数组的区间为[left, mid], 右子数组的区间为[mid+1, right]
+    //创建一个临时数组 tmp 存放合并后的结果
+    vector<int> temp(right-left+1);
+    int i = left, j = mid+1, k = 0;
+    //当左右子树都还有元素时，比较大小，将较小的元素放入tmp中
+    while(i <= mid && j <= right){
+        if(nums[i] <= nums[j])
+            temp[k++] = nums[i++];
+        else
+            temp[k++] = nums[j++];
+    }
+    //将左或右子树剩余的元素放入tmp中
+    while(i <= mid)
+        temp[k++] = nums[i++];
+    while(j <= right)
+        temp[k++] = nums[j++];
+    //将tmp中的元素复制回原数组
+    for(k = 0; k < temp.size(); k++){
+        nums[left+k] = temp[k];
+    }
+}
+
+void merge_sort(vector<int> &nums,int left, int right){
+    //终止条件
+    if(left >= right)
+        return ;
+    //递归划分左右子树
+    int mid = left + (right - left) / 2;
+    merge_sort(nums, left, mid);
+    merge_sort(nums, mid+1, right);
+    //合并左右子树
+    merge(nums, left, mid, right);
+}
+
 int main(void){
     vector<int> nums = {3, 2, 1, 5, 4, 6, 4};
-    quick_sort(nums, 0, nums.size()-1);
+    merge_sort(nums, 0, nums.size()-1);
     for(int i = 0; i < nums.size(); i++){
         cout << nums[i] << " ";
     }
